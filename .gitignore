@@ -132,3 +132,4 @@ dmypy.json
 #
 /node_modules
 music_controller/frontend/node_modules/
+env.py
