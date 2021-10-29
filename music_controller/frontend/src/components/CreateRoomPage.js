@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -32,17 +31,17 @@ export default class CreateRoomPage extends Component {
   };
 
   handleRoomButtonClicked = () => {
-    let data = {
-      votes_to_skip: this.state.votesToSkip,
-      guest_can_pause: this.state.guestCanPause,
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        votes_to_skip: this.state.votesToSkip,
+        guest_can_pause: this.state.guestCanPause,
+      }),
     };
-    axios.post('/api/create-room', data).then(
-      (response) => this.props.history.push('/room/' + response['data'].code)
-      //this.props.history.push('/room/' + response?.data.code)
-    ),
-      (error) => {
-        console.log(error);
-      };
+    fetch('/api/create-room', requestOptions)
+      .then((response) => response.json())
+      .then((data) => this.props.history.push('/room/' + data.code));
   };
 
   render() {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { axios } from 'axios';
 
 export default class Room extends Component {
   constructor(props) {
@@ -14,12 +13,15 @@ export default class Room extends Component {
   }
 
   getRoomDetails() {
-    const res = axios.get('/api/get-room' + '?code=' + 'HPQCIP');
-    this.setState({
-      votesToSkip: res.votes_to_skip,
-      guestCanPause: res.guest_can_pause,
-      isHost: res.is_host,
-    });
+    fetch('/api/get-room' + '?code=' + this.roomCode)
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          votesToSkip: data.votes_to_skip,
+          guestCanPause: data.guest_can_pause,
+          isHost: data.is_host,
+        });
+      });
   }
 
   render() {
