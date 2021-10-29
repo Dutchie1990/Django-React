@@ -32,19 +32,17 @@ export default class CreateRoomPage extends Component {
   };
 
   handleRoomButtonClicked = () => {
-    console.log('test');
     let data = {
       votes_to_skip: this.state.votesToSkip,
       guest_can_pause: this.state.guestCanPause,
     };
-    axios.post('http://127.0.0.1:8000/api/create-room', data).then(
-      (response) => {
-        console.log(response);
-      },
+    axios.post('/api/create-room', data).then(
+      (response) => this.props.history.push('/room/' + response['data'].code)
+      //this.props.history.push('/room/' + response?.data.code)
+    ),
       (error) => {
         console.log(error);
-      }
-    );
+      };
   };
 
   render() {
